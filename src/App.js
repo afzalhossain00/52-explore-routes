@@ -1,23 +1,53 @@
 import logo from './logo.svg';
 import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './components/Home/Home';
+import About from './components/About/About';
+import Products from './components/Products/Products';
+import Main from './Layout/Main';
+import Contacts from './components/Contacts/Contacts';
+import ContactDetails from './components/ContactDetails/ContactDetails';
+import Posts from './components/Posts/Posts';
 
 function App() {
+  const router = createBrowserRouter([
+
+    {
+      path: '/',
+      element: <Main></Main>,
+      children: [
+        { path: '/', element: <Home></Home> },
+        { path: '/home', element: <Home></Home> },
+        { path: '/products', element: <Products></Products> },
+
+        {
+          path: '/contacts',
+          loader: async () => {
+            return fetch('https://jsonplaceholder.typicode.com/users')
+          },
+          element: <Contacts></Contacts>
+        },
+        {
+          path: '/contact/:contactId',
+          loader: async ({ params }) => {
+            // console.log(params.contactId);
+            return fetch(`https://jsonplaceholder.typicode.com/users/${params.contactId}`)
+          },
+          element: <ContactDetails></ContactDetails>
+        },
+        {
+          path: '/posts',
+          element: <Posts></Posts>
+        }
+      ]
+    },
+    { path: '/about', element: <About></About> },
+    { path: '*', element: <div>404 Not found any route</div> },
+  ])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <RouterProvider router={router}></RouterProvider>
     </div>
   );
 }
