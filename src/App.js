@@ -37,7 +37,7 @@ function App() {
           element: <ContactDetails></ContactDetails>
         },
         {
-          path: '/posts',
+          path: 'posts',
           loader: async () => {
             return fetch('https://jsonplaceholder.typicode.com/posts')
           },
@@ -46,7 +46,7 @@ function App() {
         {
           path: '/post/:postId',
           loader: async ({ params }) => {
-            fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`)
+            return fetch(`https://jsonplaceholder.typicode.com/posts/${params.postId}`)
           },
           element: <PostDetails></PostDetails>
         },

@@ -5,9 +5,11 @@ const PostDetails = () => {
     const post = useLoaderData();
     const { id, title, body, userId } = post;
     const navigate = useNavigate();
+
     const handleNavigate = () => {
         navigate(`/contact/${userId}`)
     }
+
     return (
         <div>
             <h2>Details about post: {id}</h2>
